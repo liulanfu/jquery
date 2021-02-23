@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<script src="./js/jquery.min.js"></script>
+<body>
+    <div></div>
+    <input type="text">
+    <script>
+        $('div').click(function(){
+            alert('aaaaaaaa');
+        })
+        // $('div').click();
+        $('div').trigger('click');
+        $('input').focus(function(){
+            $(this).val('我出发了');
+        })
+        // $('input').focus();   //会触发默认行为
+        $('input').triggerHandler('focus');   //不会触发默认行为
+    </script>
+</body>
+</html>

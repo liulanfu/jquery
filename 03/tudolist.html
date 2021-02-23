@@ -1,0 +1,129 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>ToDoList—最简单的待办事项列表</title>
+    <link rel="stylesheet" href="./css/index.css">
+    <script src="./js/jquery.min.js"></script>
+</head>
+
+<body>
+    <header>
+        <section>
+            <label for="title">ToDoList</label>
+            <input type="text" id="title" name="title" placeholder="添加ToDo" required="required" autocomplete="off" />
+        </section>
+    </header>
+    <section>
+        <h2>正在进行 <span id="todocount"></span></h2>
+        <ol id="todolist" class="demo-box">
+
+        </ol>
+        <h2>已经完成 <span id="donecount"></span></h2>
+        <ul id="donelist">
+
+        </ul>
+    </section>
+    <footer>
+        Copyright &copy; 2014 todolist.cn
+    </footer>
+
+
+
+    <script>
+        let data = [];
+        const datas=localStorage.getItem('data');
+        if(datas){
+            data=JSON.parse(datas);
+        }
+
+
+        const KEYCODE = 13;
+        $(document).on('keyup', function (e) {
+            if (e.keyCode == KEYCODE) {
+                let value = $('#title').val().trim();
+                $('#title').val("");
+                if(value){
+                    updateDate('Add', {
+                        value: value,
+                        done: false,
+                        id: Math.random()
+                    });
+                }
+            };
+        });
+
+        $('section').on('change', 'input', function () {
+            let done = $(this).prop('checked');
+            let id = $(this).parents('li').prop('id');
+            updateDate('Update', {
+                done: done,
+                id: id
+            });
+        });
+
+        $('section').on('click', 'a', function () {
+            let id = $(this).parents('li').prop('id');
+            updateDate('Delete', { id: id });
+        })
+
+
+
+
+
+        function updateDate(type, dataitem) {
+
+            switch (type) {
+                case 'Add': data.unshift(dataitem);
+                    break;
+                case 'Update':
+                    $.each(data, function (i, item) {
+                        if (item.id == Number(dataitem.id)) {
+                            item.done = dataitem.done;
+                        }
+                    });
+                    break;
+                case 'Delete':
+                    data = data.filter(function (item) {
+                        return item.id !== Number(dataitem.id);
+                    });
+                    break;
+                default: return;
+            }
+
+            localStorage.setItem('data',JSON.stringify(data));
+
+            random();
+        }
+
+
+        function random() {
+            let todolist = "";
+            let donelist = ""
+            $.each(data, function (i, item) {
+                if (item.done) {
+                    donelist += `<li id="${item.id}">
+                                <input type='checkbox'  checked='checked'>
+                                <p>${item.value}</p>
+                                <a href="javascript:;"></a>
+                           </li>`;
+                } else {
+                    todolist += `<li id="${item.id}">
+                                <input type='checkbox'>
+                                <p>${item.value}</p>
+                                <a href="javascript:;"></a>
+                           </li>`;
+                }
+            });
+            $('#todolist').html(todolist);
+            $('#todocount').text($('#todolist').children().length);
+            $('#donelist').html(donelist);
+            $('#donecount').text($('#donelist').children().length);
+        }
+        random();
+    </script>
+</body>
+
+</html>

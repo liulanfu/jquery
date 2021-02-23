@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/base.css">
+    <script src="./js/jquery.min.js"></script>
+</head>
+<style>
+    .box{
+        width: 400px;
+        border: 1px solid #ccc;
+        margin: 100px auto;
+        text-align: center;
+    }
+    textarea{
+        resize: none;
+        outline: none;
+    }
+    button{
+        background-color: cornsilk;
+        border: 1px solid #ccc;
+    }
+    ul{
+        position: relative;
+        width: 229px;
+        margin-left: 95.5px;
+        text-align: left;
+    }
+    ul li{
+        text-indent: 1em;
+        background-color: darkorange;
+        margin: 5px 0;
+        color: #fff;
+        display: none;
+    }
+    ul li a{
+        position: absolute;
+        right: 10px;
+    }
+</style>
+<body>
+    <div class="box">
+        <span>微博发布</span>
+        <textarea cols="30" rows="10"></textarea>
+        <button>发布</button>
+        <ul>
+        </ul>
+    </div>
+
+    <script>
+        $('button').click(function(){
+            let txt=$('textarea').val();
+            let li=$('<li>'+txt+'<a href="javascript:;">删除</a></li>');
+            // console.log(txt);
+            $('ul').prepend(li);
+            $('li').slideDown();
+            $('textarea').val('');
+        });
+        $('ul').on('click','a',function(){
+            $(this).parent().slideUp(function(){
+                $(this).remove();
+            });
+        });
+    </script>
+</body>
+</html>

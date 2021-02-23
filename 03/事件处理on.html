@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>事件处理on</title>
+    <script src="./js/jquery.min.js"></script>
+    <style>
+        .box {
+            width: 150px;
+            height: 150px;
+            background-color: blueviolet;
+        }
+
+        .current {
+            background-color: coral !important;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box"></div>
+    <ul>
+        <li>asd</li>
+        <li>asd</li>
+        <li>asd</li>
+        <li>asd</li>
+        <li>asd</li>
+    </ul>
+    <ol></ol>
+    <script>
+        // $('.box').on({
+        //     mouseleave:function(){
+        //         $(this).css('background','red');
+        //     },
+        //     click:function(){
+        //         $(this).css('background','orange');
+        //     },
+        //     mouseenter:function(){
+        //         $(this).css('background','yellow');
+        //     }
+        // });
+
+        // $('.box').on("mouseleave mouseenter", function () {
+        //     $(this).toggleClass('current');
+        // });
+
+        //on可以实现事件委托(委派)
+        // $('ul').on('click','li',function(){
+        //     $(this).css('background','red').siblings().css('background','none');
+        // });
+
+        //on可以给未来动态创建的元素绑定事件
+        // $('ol').on('click','li',function(){
+        //     alert('aaa');
+        // });
+        // let li=$('<li>呵呵哈哈</li>');
+        // $('ol').append(li);
+
+
+
+
+
+
+
+
+
+
+
+
+        // $('.box').on({
+        //     click:function(){
+        //         $(this).css('background','red');
+        //     },
+        //     mouseleave:function(){
+        //         $(this).removeClass('current');
+        //     },
+        //     mouseenter:function(){
+        //         $(this).addClass('current');
+        //     }
+        // })
+
+        $('ol').on('click','li',function(){
+            alert('aaa');
+        });
+        let li=$('<li>呵呵哈哈</li>');
+        let a=$('<a href="javascript:;">aaaaa</a>');
+        $('ol').append(li);
+        $('ol').append(a);
+    </script>
+</body>
+
+</html>

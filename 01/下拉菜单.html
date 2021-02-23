@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/base.css">
+</head>
+<script src="./js/jquery.min.js"></script>
+<style>
+    .nav{
+        width: 300px;
+        height: 30px;
+        margin: 100px auto;
+        line-height: 30px;
+        background-color: aquamarine;
+    }
+    .nav>li{
+        width: 20%;
+        height: 100%;
+        float: left;
+        text-align: center;
+    }
+    .nextnav{
+        background-color: bisque;
+        display: none;
+    }
+    .nextnav li{
+        border-bottom: 1px solid #ccc;
+    }
+    .nextnav li:hover{
+        background-color: burlywood;
+    }
+</style>
+<body>
+    <ul class="nav">
+        <li>
+            <a href="javascript:;">导航</a>
+            <ul class="nextnav">
+                <li><a href="#">新闻报道6</a></li>
+                <li><a href="#">新闻报道1</a></li>
+                <li><a href="#">新闻报道2</a></li>
+                <li><a href="#">新闻报道3</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="javascript:;">导航</a>
+            <ul class="nextnav">
+                <li><a href="#">新闻报道6</a></li>
+
+            </ul>
+        </li>
+        <li>
+            <a href="javascript:;">导航</a>
+            <ul class="nextnav">
+                <li><a href="#">新闻报道6</a></li>
+                <li><a href="#">新闻报道1</a></li>
+               
+            </ul>
+        </li>
+        <li>
+            <a href="javascript:;">导航</a>
+            <ul class="nextnav">
+                <li><a href="#">新闻报道1</a></li>
+                <li><a href="#">新闻报道2</a></li>
+                <li><a href="#">新闻报道3</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="javascript:;">导航</a>
+             <ul class="nextnav">
+                <li><a href="#">新闻报道6</a></li>
+                <li><a href="#">新闻报道1</a></li>
+                <li><a href="#">新闻报道3</a></li>
+            </ul>
+        </li>
+    </ul>
+
+    <script>
+        // $('.nav>li').mouseenter(function(){
+        //     $(this).children('.nextnav').slideDown();
+        // });
+        // $('.nav>li').mouseleave(function(){
+        //     $(this).children('.nextnav').slideUp();
+        // })
+
+        // $('.nav>li').hover(function(){},function(){});     //hover([enter],[leave])
+        
+
+        //slideToggle()切换的一种方法
+        $('.nav>li').hover(function(){
+            $(this).children('.nextnav').stop().slideToggle();
+        })
+    </script>
+</body>
+</html>

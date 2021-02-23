@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>ToDoList—最简单的待办事项列表</title>
+    <link rel="stylesheet" href="css/index.css">
+    <script src="./jquery.min.js"></script>
+</head>
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        font-size: 16px;
+        background: #CDCDCD;
+    }
+
+    header {
+        height: 50px;
+        background: #333;
+        background: rgba(47, 47, 47, 0.98);
+    }
+
+    section {
+        margin: 0 auto;
+    }
+
+    label {
+        float: left;
+        width: 100px;
+        line-height: 50px;
+        color: #DDD;
+        font-size: 24px;
+        cursor: pointer;
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+
+    header input {
+        float: right;
+        width: 60%;
+        height: 24px;
+        margin-top: 12px;
+        text-indent: 10px;
+        border-radius: 5px;
+        box-shadow: 0 1px 0 rgba(255, 255, 255, 0.24), 0 1px 6px rgba(0, 0, 0, 0.45) inset;
+        border: none
+    }
+
+    input:focus {
+        outline-width: 0
+    }
+
+    h2 {
+        position: relative;
+    }
+
+    span {
+        position: absolute;
+        top: 2px;
+        right: 5px;
+        display: inline-block;
+        padding: 0 5px;
+        height: 20px;
+        border-radius: 20px;
+        background: #E6E6FA;
+        line-height: 22px;
+        text-align: center;
+        color: #666;
+        font-size: 14px;
+    }
+
+    ol,
+    ul {
+        padding: 0;
+        list-style: none;
+    }
+
+    li input {
+        position: absolute;
+        top: 2px;
+        left: 10px;
+        width: 22px;
+        height: 22px;
+        cursor: pointer;
+    }
+
+    p {
+        margin: 0;
+    }
+
+    li p input {
+        top: 3px;
+        left: 40px;
+        width: 70%;
+        height: 20px;
+        line-height: 14px;
+        text-indent: 5px;
+        font-size: 14px;
+    }
+
+    li {
+        height: 32px;
+        line-height: 32px;
+        background: #fff;
+        position: relative;
+        margin-bottom: 10px;
+        padding: 0 45px;
+        border-radius: 3px;
+        border-left: 5px solid #629A9C;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.07);
+    }
+
+    ol li {
+        cursor: move;
+    }
+
+    ul li {
+        border-left: 5px solid #999;
+        opacity: 0.5;
+    }
+
+    li a {
+        position: absolute;
+        top: 2px;
+        right: 5px;
+        display: inline-block;
+        width: 14px;
+        height: 12px;
+        border-radius: 14px;
+        border: 6px double #FFF;
+        background: #CCC;
+        line-height: 14px;
+        text-align: center;
+        color: #FFF;
+        font-weight: bold;
+        font-size: 14px;
+        cursor: pointer;
+    }
+
+    footer {
+        color: #666;
+        font-size: 14px;
+        text-align: center;
+    }
+
+    footer a {
+        color: #666;
+        text-decoration: none;
+        color: #999;
+    }
+
+    @media screen and (max-device-width: 620px) {
+        section {
+            width: 96%;
+            padding: 0 2%;
+        }
+    }
+
+    @media screen and (min-width: 620px) {
+        section {
+            width: 600px;
+            padding: 0 10px;
+        }
+    }
+</style>
+
+<body>
+    <header>
+        <section>
+            <label for="title">ToDoList</label>
+            <input type="text" id="title" name="title" placeholder="添加ToDo" required="required" autocomplete="off" />
+        </section>
+    </header>
+    <section>
+        <h2>正在进行 <span id="todocount"></span></h2>
+        <ol id="todolist" class="demo-box">
+
+        </ol>
+        <h2>已经完成 <span id="donecount"></span></h2>
+        <ul id="donelist">
+
+        </ul>
+    </section>
+    <footer>
+        Copyright &copy; 2014 todolist.cn
+    </footer>
+    <script>
+
+// MVVM  V -> M M -> V
+
+        // 输入内容，按回车键添加待办事项
+
+        // 点击复选框 切换完成状态
+
+        // 待办和已办的事项数量展示
+
+        // 点击删除按钮删除当前事项
+
+        // 事项持久化处理 
+        let data = []
+        const localData = localStorage.getItem("data");
+        if (localData) {
+            data = JSON.parse(localData);
+        }
+       
+
+
+        const KEYCODE_ENTER = 13;
+        // 添加键盘事件
+        $(document).on("keyup", function (e) {
+            // 判断是否为回车键
+            if (e.keyCode === KEYCODE_ENTER) {
+                // 获取输入框内容
+                const value = $("#title").val().trim();
+                // 清空输入框
+                $("#title").val("");
+                // 如果value没值，则不更新数据
+                // value === "" 等价于 !value
+                if (!value) return;
+                
+                // 调用更新函数
+                updateData("ADD", { value: value, done: false, id: Math.random() });
+            }
+        });
+
+        $("section").on("change", "input", function () {
+            // 获取当前checkbox选中状态
+            const done = $(this).prop("checked");
+            // 获取当前项li的id
+            const id = $(this).parents("li").prop("id");
+            // 更新数据
+            updateData("UPDATE", {id: id, done: done})
+        });
+
+
+        $("section").on("click", "a", function () {
+            const id = $(this).parents("li").prop("id");
+             // 更新数据
+             updateData("DELETE", {id: id})
+        });
+
+        // 数据更新函数
+        function updateData(type, dataItem) {
+         
+            // 判断更新类型
+            switch (type) {
+                case "ADD":  // 追加数据
+                    data.unshift(dataItem);
+                    break;
+                case "UPDATE": // 更新数据
+                    $.each(data, function (i, item) { // 遍历原数据
+                        if (item.id === Number(dataItem.id)) { // 根据id在原数据中找到匹配数据项，
+                            // 更新done属性
+                            item.done = dataItem.done;
+                        }
+                    });
+                    break;
+                case "DELETE":
+                    data = data.filter(function (item) {
+                        return item.id !== Number(dataItem.id)
+                    });
+                break;
+                default: return;
+            }
+            
+            localStorage.setItem("data", JSON.stringify(data));
+            render();
+        }
+
+
+        function render() {
+            // 初始化待办事项元素字符串
+            let todoList = ""
+            // 初始化已办事项元素字符串
+            let doneList = ""
+            // 遍历数据
+            $.each(data, function (i, item) {
+                // 判断是否为已办事项
+                if (item.done) {
+                    // 如果为已办事项，拼接已办事项元素字符串
+                    doneList += `<li id="${item.id}">
+                        <input type='checkbox' checked='checked' > 
+                        <p>${item.value}</p> 
+                        <a href='javascript:;' ></a>
+                        </li>`;
+                } else {
+                    // 如果为待办事项，拼接已办事项元素字符串
+                    todoList += `<li id="${item.id}">
+                        <input type='checkbox' > 
+                        <p>${item.value}</p> 
+                        <a href='javascript:;'></a>
+                        </li>`;
+                }
+            });
+            // 渲染待办事项列表
+            $("#todolist").html(todoList);
+            // 渲染待办事项数量
+            $("#todocount").text($("#todolist").children().length);
+            // 渲染已办事项列表
+            $("#donelist").html(doneList);
+            // 渲染已办事项数量
+            $("#donecount").text($("#donelist").children().length);
+        }
+
+        render();
+    </script>
+</body>
+
+</html>

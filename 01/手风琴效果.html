@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/base.css">
+    <script src="./js/jquery.min.js"></script>
+</head>
+<style>
+    .box {
+        width: 870px;
+        height: 100px;
+        background: url(./images/imgs/bg.png) no-repeat;
+        margin: 100px auto;
+        padding: 0 15px;
+    }
+    .box ul{
+        height: 100%;
+        /* overflow: hidden; */
+    }
+    .box ul li {
+        height: 100%;
+        width: 69px;
+        float: left;
+        padding: 16px 0;
+        margin: 0 8px;
+        position: relative;
+    }
+    .box ul li.current{
+        width: 224px;
+    }
+    .box ul li.current .big{
+        display: block;
+    }
+    .box ul li.current .small{
+        display: none;
+    }
+    .box ul li .small{
+        height: 69px;
+        height: 69px;
+        position: absolute;
+        top: 17px;
+        left: 0;
+    }
+    .box ul li .big{
+        height: 69px;
+        width: 224px;
+        display: none;    
+    }
+</style>
+
+<body>
+    <div class="box">
+        <ul>
+            <li class="current">
+                <img src="./images/imgs/m.png" alt="" class="big">
+                <img src="./images/imgs/m1.jpg" alt="" class="small">
+            </li>
+            <li>
+                <img src="./images/imgs/h.png" alt="" class="big">
+                <img src="./images/imgs/h1.jpg" alt="" class="small">
+            </li>
+            <li>
+                <img src="./images/imgs/l.png" alt="" class="big">
+                <img src="./images/imgs/l1.jpg" alt="" class="small">
+            </li>
+            <li>
+                <img src="./images/imgs/t.png" alt="" class="big">
+                <img src="./images/imgs/t1.jpg" alt="" class="small">
+            </li>
+            <li>
+                <img src="./images/imgs/w.png" alt="" class="big">
+                <img src="./images/imgs/w1.jpg" alt="" class="small">
+            </li>
+            <li>
+                <img src="./images/imgs/z.png" alt="" class="big">
+                <img src="./images/imgs/z1.jpg" alt="" class="small">
+            </li>
+            <li>
+                <img src="./images/imgs/c.png" alt="" class="big">
+                <img src="./images/imgs/c1.jpg" alt="" class="small">
+            </li>
+        </ul>
+    </div>
+
+    <script>
+        // $('.box ul li').mouseenter(function(){
+        //     $(this).stop().animate({
+        //         width:224
+        //     }).find('.small').stop().fadeOut().siblings('.big').stop().fadeIn();
+
+        //     $(this).siblings('li').stop().animate({
+        //         width:69
+        //     }).find('.small').stop().fadeIn().siblings('.big').stop().fadeOut();
+        // })
+
+        $('.box li').mouseenter(function(){
+            $(this).stop().animate({
+                width:224
+            }).find('.small').stop().fadeOut().siblings('.big').stop().fadeIn();
+
+            $(this).siblings().stop().animate({
+                width:69
+            }).find('.big').stop().fadeOut().siblings('.small').stop().fadeIn();
+        })
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./js/jquery-1.12.4.min (1).js"></script>
+</head>
+
+<body>
+    <a href="https://www.itcast.cn"></a>
+    <div index='22'></div>
+
+    <input type="text" value="2">
+    <input type="text" value="2">
+    <input type="text" value="2">
+    <input type="text" value="2">
+    <input type="text" value="2">
+
+    <script>
+        // console.log($('a').prop('href'));
+
+        // console.log($('div').attr('index'));
+
+        // $('div').data('constome', 'asdsad');
+        // console.log($('div').data('constome'));
+
+        // $('input').each(function(i,ele){
+        //     console.log($(ele));
+        //     console.log($(ele).val());
+        //     if(i==3) return;
+        //     console.log(i);
+        // })
+
+        // $.each()遍历数组和对象    说白了就是遍历数据
+        const arr=['大胖','欧阳','家良','吴琦','小胖'];
+        $.each(arr,function(i,ele){
+            console.log(i,'------',ele);
+        });
+
+        const obj={
+            name:'小布',
+            sex:'man',
+            age:3
+        }
+        $.each(obj,function(k,value){
+            console.log(k,'------',value);
+
+        })
+    </script>
+</body>
+
+</html>
